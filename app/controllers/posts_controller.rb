@@ -1,17 +1,13 @@
 class PostsController < ApplicationController
   def index
     @authors = Author.all
-    @posts =  if !params[:author].blank?
-                Post.by_author(params[:author])
-              elsif !params[:date].blank?
-                if params[:date] == 'Today'
-                 Post.from_today
-               else
-                 Post.old_news
-                        end
-              else
-                Post.all
-              end
+    @posts = if !params[:author].blank?
+               Post.by_author(params[:author])
+             elsif !params[:date].blank?
+               params[:date] == 'Today' ? Post.from_today : Post.old_news
+             else
+               Post.all
+             end
   end
 
   def show
